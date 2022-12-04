@@ -1,0 +1,16 @@
+program AplicacaoRasther;
+
+uses
+  Vcl.Forms,
+  uFrmPrincipal in 'uFrmPrincipal.pas' {FrmPrincipal},
+  uFrmTipo in 'uFrmTipo.pas' {FrmTipo};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.CreateForm(TFrmTipo, FrmTipo);
+  Application.Run;
+end.

@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{55EFEF58-D985-4A66-8A0E-3548E474EE4F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="AplicacaoRasther.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="AplicacaoRasther">
+        <MSBuild Projects="AplicacaoRasther.dproj"/>
+    </Target>
+    <Target Name="AplicacaoRasther:Clean">
+        <MSBuild Projects="AplicacaoRasther.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AplicacaoRasther:Make">
+        <MSBuild Projects="AplicacaoRasther.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="AplicacaoRasther"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="AplicacaoRasther:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="AplicacaoRasther:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

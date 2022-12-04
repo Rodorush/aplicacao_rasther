@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2022/12/03 17:04:21.000.199,=G:\Meu Drive\Programação\Delphi\Unit1.pas</Transaction>
+    <Transaction>2022/12/03 17:05:15.000.678,=G:\Meu Drive\Programação\Delphi\Unit1.pas</Transaction>
+    <Transaction>2022/12/03 17:05:37.000.530,G:\Meu Drive\Programação\Delphi\uFrmPrincipal.dfm=G:\Meu Drive\Programação\Delphi\Unit1.dfm</Transaction>
+    <Transaction>2022/12/03 17:05:37.000.530,G:\Meu Drive\Programação\Delphi\uFrmPrincipal.pas=G:\Meu Drive\Programação\Delphi\Unit1.pas</Transaction>
+    <Transaction>2022/12/03 17:06:27.000.918,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmPrincipal.dfm=G:\Meu Drive\Programação\Delphi\uFrmPrincipal.dfm</Transaction>
+    <Transaction>2022/12/03 17:06:27.000.918,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmPrincipal.pas=G:\Meu Drive\Programação\Delphi\uFrmPrincipal.pas</Transaction>
+    <Transaction>2022/12/03 17:07:58.000.338,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\Project1.dproj=G:\Meu Drive\Programação\Delphi\Project1.dproj</Transaction>
+    <Transaction>2022/12/03 17:08:18.000.170,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\AplicacaoRasther.dproj=G:\Meu Drive\Programação\Delphi\aplicacao_rasther\Project1.dproj</Transaction>
+    <Transaction>2022/12/03 21:48:58.000.468,=G:\Meu Drive\Programação\Delphi\aplicacao_rasther\Unit1.pas</Transaction>
+    <Transaction>2022/12/03 21:49:16.000.268,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmTipo.pas=G:\Meu Drive\Programação\Delphi\aplicacao_rasther\Unit1.pas</Transaction>
+    <Transaction>2022/12/03 21:49:16.000.268,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmTipo.dfm=G:\Meu Drive\Programação\Delphi\aplicacao_rasther\Unit1.dfm</Transaction>
+    <Transaction>2022/12/03 21:52:40.000.991,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmCategoria.pas=G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmTipo.pas</Transaction>
+    <Transaction>2022/12/03 21:52:40.000.991,G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmCategoria.dfm=G:\Meu Drive\Programação\Delphi\aplicacao_rasther\uFrmTipo.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

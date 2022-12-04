@@ -1,0 +1,57 @@
+unit uFrmPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
+  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.StdCtrls, System.Types, System.StrUtils,
+  Vcl.Menus;
+
+type
+  TFrmPrincipal = class(TForm)
+    Button1: TButton;
+    RESTClient1: TRESTClient;
+    RESTRequest1: TRESTRequest;
+    RESTResponse1: TRESTResponse;
+    ComboBox1: TComboBox;
+    MainMenu1: TMainMenu;
+    Arquivo1: TMenuItem;
+    Novaescolha1: TMenuItem;
+    N1: TMenuItem;
+    Sair1: TMenuItem;
+    Sobre1: TMenuItem;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmPrincipal.Button1Click(Sender: TObject);
+  var
+    i: integer;
+    retornoString: string;
+    retornoVetor: TStringDynArray;
+    //retorno: string;
+
+begin
+  //Memo1.Clear;
+  ComboBox1.Clear;
+  RESTRequest1.Execute;
+  retornoString := RESTRequest1.Response.Content;
+  retornoString := retornoString.Substring(1,length(retornoString)-2);
+  retornoVetor := SplitString(retornoString, ',');
+  for i := 0 to length(retornoVetor)-1 do
+    ComboBox1.Items.Add(retornoVetor[i].Substring(1,length(retornoVetor[i])-2));
+    //Memo1.Lines.Add(retornoVetor[i].Substring(1,length(retornoVetor[i])-2));
+end;
+
+end.
