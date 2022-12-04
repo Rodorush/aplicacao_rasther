@@ -3,7 +3,7 @@ object FrmCategoria: TFrmCategoria
   Top = 0
   Caption = 'Categoria'
   ClientHeight = 247
-  ClientWidth = 407
+  ClientWidth = 387
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object FrmCategoria: TFrmCategoria
     AlignWithMargins = True
     Left = 3
     Top = 30
-    Width = 401
+    Width = 381
     Height = 25
     Margins.Top = 30
     Align = alTop
@@ -31,41 +31,33 @@ object FrmCategoria: TFrmCategoria
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    ExplicitTop = 50
+    ExplicitWidth = 259
   end
   object ComboBox1: TComboBox
-    Left = 80
+    Left = 112
     Top = 86
     Width = 169
     Height = 21
     TabOrder = 0
     Text = 'Selecione um tipo de ve'#237'culo'
+    OnSelect = ComboBox1Select
   end
-  object Button1: TButton
-    Left = 255
-    Top = 84
-    Width = 75
-    Height = 25
-    Caption = 'Obter'
-    TabOrder = 1
-    OnClick = Button1Click
-  end
-  object RESTClient1: TRESTClient
-    BaseURL = 
+  object RESTClientCategoria: TRESTClient
+    Accept = 
       'https://service.tecnomotor.com.br/iRasther/tipo?pm.platform=1&pm' +
       '.version=23'
     Params = <>
-    Left = 80
-    Top = 136
+    Left = 48
+    Top = 120
   end
-  object RESTRequest1: TRESTRequest
-    Client = RESTClient1
+  object RESTRequestCategoria: TRESTRequest
+    Client = RESTClientCategoria
     Params = <>
-    Response = RESTResponse1
-    Left = 168
-    Top = 139
+    Response = RESTResponseCategoria
+    Left = 144
+    Top = 155
   end
-  object RESTResponse1: TRESTResponse
+  object RESTResponseCategoria: TRESTResponse
     Left = 256
     Top = 139
   end

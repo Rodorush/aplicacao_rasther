@@ -1,0 +1,69 @@
+unit uFrmPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, REST.Client,
+  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.StdCtrls, Vcl.Menus, uFrmCategoria,
+  Vcl.ComCtrls, System.JSON;
+
+type
+  TFrmPrincipal = class(TForm)
+    MainMenu1: TMainMenu;
+    Arquivo1: TMenuItem;
+    Novaescolha1: TMenuItem;
+    N1: TMenuItem;
+    Sair1: TMenuItem;
+    Sobre1: TMenuItem;
+    ListBoxMontadoras: TListBox;
+    ListBoxVeiculos: TListBox;
+    RESTClientPrincipal: TRESTClient;
+    RESTRequestPrincipal: TRESTRequest;
+    RESTResponsePrincipal: TRESTResponse;
+    Memo1: TMemo;
+    procedure Novaescolha1Click(Sender: TObject);
+    procedure Sair1Click(Sender: TObject);
+    procedure ListBoxMontadorasClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmPrincipal.ListBoxMontadorasClick(Sender: TObject);
+  var
+    baseURL: string;
+    montadora: TJSONValue;
+
+begin
+  FrmPrincipal.ListBoxVeiculos.Clear;
+
+  baseURL := FrmCategoria.RESTClientCategoria.BaseURL;
+
+//  montadora := TJSONObject.ParseJSONValue(FrmCategoria.jsonMontadoras.Items[ListBoxMontadoras.ItemIndex].Value);
+  Memo1.Lines.Add(FrmCategoria.jsonMontadoras.Items[ListBoxMontadoras.ItemIndex].Value);
+
+  baseURL := StringReplace(baseURL, 'montadora', 'veiculo', [])+'&pm.assemblers='+'29';
+  //MessageDlg(montadora.GetValue<string>('id'), mtInformation, [mbOK], 0);
+  //MessageDlg(montadora.ToJSON, mtInformation, [mbOK], 0);
+end;
+
+procedure TFrmPrincipal.Novaescolha1Click(Sender: TObject);
+begin
+  FrmCategoria.ShowModal;
+end;
+
+procedure TFrmPrincipal.Sair1Click(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+end.

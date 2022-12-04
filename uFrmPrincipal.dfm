@@ -15,6 +15,25 @@ object FrmPrincipal: TFrmPrincipal
   Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
+  object ListBoxMontadoras: TListBox
+    Left = 8
+    Top = 8
+    Width = 200
+    Height = 579
+    ItemHeight = 13
+    TabOrder = 0
+    Visible = False
+    OnClick = ListBoxMontadorasClick
+  end
+  object ListBoxVeiculos: TListBox
+    Left = 214
+    Top = 8
+    Width = 200
+    Height = 579
+    ItemHeight = 13
+    TabOrder = 1
+    Visible = False
+  end
   object MainMenu1: TMainMenu
     Left = 968
     Top = 8
@@ -29,10 +48,27 @@ object FrmPrincipal: TFrmPrincipal
       end
       object Sair1: TMenuItem
         Caption = '&Sair'
+        OnClick = Sair1Click
       end
     end
     object Sobre1: TMenuItem
       Caption = '&Sobre'
     end
+  end
+  object RESTClientPrincipal: TRESTClient
+    Params = <>
+    Left = 968
+    Top = 64
+  end
+  object RESTRequestPrincipal: TRESTRequest
+    Client = RESTClientPrincipal
+    Params = <>
+    Response = RESTResponsePrincipal
+    Left = 968
+    Top = 120
+  end
+  object RESTResponsePrincipal: TRESTResponse
+    Left = 968
+    Top = 176
   end
 end
