@@ -23,16 +23,24 @@ type
     RESTResponsePrincipal: TRESTResponse;
     ListBoxMotorizacao: TListBox;
     StatusBar1: TStatusBar;
+    ListBoxTiposSistema: TListBox;
+    ListBoxSistemas: TListBox;
     procedure Novaescolha1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure ListBoxMontadorasClick(Sender: TObject);
     procedure ListBoxVeiculosClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure ListBoxMotorizacaoClick(Sender: TObject);
+    procedure ListBoxTiposSistemaClick(Sender: TObject);
   private
     { Private declarations }
-    jsonVeiculos: TJSONArray;
-    jsonMotorizacao: TJSONArray;
+    jaVeiculos: TJSONArray;
+    jaMotorizacao: TJSONArray;
+    jaTipoSistema: TJSONArray;
     sMontadoraSelecionada: string;
+    sVeiculoSelecionado: string;
+    sMotorizacaoSelecionada: string;
+    sTipoSistemaSelecionado: string;
   public
     { Public declarations }
     baseURL: string;
@@ -55,7 +63,7 @@ end;
 
 procedure TFrmPrincipal.ListBoxMontadorasClick(Sender: TObject);
   var
-    jMontadoraSelecionada: TJSONObject;
+    joMontadoraSelecionada: TJSONObject;
     I: integer;
     item: TJSONObject;
 
@@ -63,18 +71,23 @@ begin
   ListBoxVeiculos.Clear;
   ListBoxMotorizacao.Clear;
   ListBoxMotorizacao.Visible := false;
-  jMontadoraSelecionada := FrmCategoria.jsonMontadoras.Items[ListBoxMontadoras.ItemIndex] as TJSONObject;
-  sMontadoraSelecionada := jMontadoraSelecionada.GetValue('id').Value;
+  ListBoxTiposSistema.Clear;
+  ListBoxTiposSistema.Visible := false;
+  ListBoxSistemas.Clear;
+  ListBoxSistemas.Visible := false;
+
+  joMontadoraSelecionada := FrmCategoria.jsonMontadoras.Items[ListBoxMontadoras.ItemIndex] as TJSONObject;
+  sMontadoraSelecionada := joMontadoraSelecionada.GetValue('id').Value;
   StatusBar1.SimpleText := baseURL+'veiculo'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada+'&pm.assemblers='
    +sMontadoraSelecionada;
   RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
 
   try
     RESTRequestPrincipal.Execute;
-    jsonVeiculos := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
-    for I := 0 to jsonVeiculos.Count - 1 do
+    jaVeiculos := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
+    for I := 0 to jaVeiculos.Count - 1 do
       begin
-        item := jsonVeiculos.Items[I] as TJSONObject;
+        item := jaVeiculos.Items[I] as TJSONObject;
         ListBoxVeiculos.Items.Add(item.GetValue('nome').Value);
       end;
 
@@ -85,34 +98,103 @@ begin
 
 end;
 
+procedure TFrmPrincipal.ListBoxMotorizacaoClick(Sender: TObject);
+  var
+    joMotorizacaoSelecionada: TJSONObject;
+    I: integer;
+    item: TJSONObject;
+
+begin
+  ListBoxTiposSistema.Clear;
+  ListBoxSistemas.Visible := false;
+  ListBoxSistemas.Clear;
+
+  joMotorizacaoSelecionada := jaMotorizacao.Items[ListBoxMotorizacao.ItemIndex] as TJSONObject;
+  sMotorizacaoSelecionada := joMotorizacaoSelecionada.GetValue('id').Value;
+  StatusBar1.SimpleText := baseURL+'tiposistema'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada
+   +'&pm.assemblers='+sMontadoraSelecionada+'&pm.vehicles='+sVeiculoSelecionado+'&pm.engines='+sMotorizacaoSelecionada;
+  RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
+
+  try
+    RESTRequestPrincipal.Execute;
+    jaTipoSistema := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
+    for I := 0 to jaTipoSistema.Count - 1 do
+      begin
+        item := jaTipoSistema.Items[I] as TJSONObject;
+        ListBoxTiposSistema.Items.Add(item.GetValue('nome').Value);
+      end;
+
+    ListBoxTiposSistema.Visible := True;
+  except
+    MessageDlg('Não foi possível obter a lista de tipos de sistema. Por favor, tente novamente.', mtError, [mbOK], 0);
+  end;
+
+end;
+
+procedure TFrmPrincipal.ListBoxTiposSistemaClick(Sender: TObject);
+  var
+    joTipoSistemaSelecionado: TJSONObject;
+    I: integer;
+    item: TJSONObject;
+    jaSistema: TJSONArray;
+
+begin
+  ListBoxSistemas.Clear;
+  joTipoSistemaSelecionado := jaTipoSistema.Items[ListBoxTiposSistema.ItemIndex] as TJSONObject;
+  sTipoSistemaSelecionado := joTipoSistemaSelecionado.GetValue('id').Value;
+  StatusBar1.SimpleText := baseURL+'sistema'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada+'&pm.assemblers='
+   +sMontadoraSelecionada+'&pm.vehicles='+sVeiculoSelecionado+'&pm.engines='+sMotorizacaoSelecionada+'&pm.typeOfSystems='
+   +sTipoSistemaSelecionado;
+  RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
+
+  try
+    RESTRequestPrincipal.Execute;
+    jaSistema := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
+    for I := 0 to jaSistema.Count - 1 do
+      begin
+        item := jaSistema.Items[I] as TJSONObject;
+        ListBoxSistemas.Items.Add(item.GetValue('nome').Value);
+      end;
+
+    ListBoxSistemas.Visible := True;
+  except
+    MessageDlg('Não foi possível obter a lista de sistemas. Por favor, tente novamente.', mtError, [mbOK], 0);
+  end;
+
+end;
+
 procedure TFrmPrincipal.ListBoxVeiculosClick(Sender: TObject);
   var
-    jVeiculoSelecionado: TJSONObject;
-    sVeiculoSelecionado: string;
+    joVeiculoSelecionado: TJSONObject;
     I: integer;
     item: TJSONObject;
 
 begin
   ListBoxMotorizacao.Clear;
-  jVeiculoSelecionado := jsonVeiculos.Items[ListBoxVeiculos.ItemIndex] as TJSONObject;
-  sVeiculoSelecionado := jVeiculoSelecionado.GetValue('id').Value;
+  ListBoxTiposSistema.Clear;
+  ListBoxTiposSistema.Visible := false;
+  ListBoxSistemas.Clear;
+  ListBoxSistemas.Visible := false;
+
+  joVeiculoSelecionado := jaVeiculos.Items[ListBoxVeiculos.ItemIndex] as TJSONObject;
+  sVeiculoSelecionado := joVeiculoSelecionado.GetValue('id').Value;
   StatusBar1.SimpleText := baseURL+'motorizacao'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada
    +'&pm.assemblers='+sMontadoraSelecionada+'&pm.vehicles='+sVeiculoSelecionado;
   RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
 
   try
     RESTRequestPrincipal.Execute;
-    if(RESTResponsePrincipal.Content = '[null]') then
+    if(RESTResponsePrincipal.Content = '[null]') then //Tentar pular um listbox
       begin
         StatusBar1.SimpleText := baseURL+'tiposistema'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada
           +'&pm.assemblers='+sMontadoraSelecionada+'&pm.vehicles='+sVeiculoSelecionado;
         RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
         RESTRequestPrincipal.Execute;
       end;
-    jsonMotorizacao := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
-    for I := 0 to jsonMotorizacao.Count - 1 do
+    jaMotorizacao := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
+    for I := 0 to jaMotorizacao.Count - 1 do
       begin
-        item := jsonMotorizacao.Items[I] as TJSONObject;
+        item := jaMotorizacao.Items[I] as TJSONObject;
         ListBoxMotorizacao.Items.Add(item.GetValue('nome').Value);
       end;
 

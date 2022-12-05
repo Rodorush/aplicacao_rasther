@@ -44,6 +44,7 @@ object FrmPrincipal: TFrmPrincipal
     ItemHeight = 13
     TabOrder = 2
     Visible = False
+    OnClick = ListBoxMotorizacaoClick
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -52,9 +53,25 @@ object FrmPrincipal: TFrmPrincipal
     Height = 19
     Panels = <>
     SimplePanel = True
-    ExplicitLeft = 672
-    ExplicitTop = 536
-    ExplicitWidth = 0
+  end
+  object ListBoxTiposSistema: TListBox
+    Left = 626
+    Top = 8
+    Width = 200
+    Height = 578
+    ItemHeight = 13
+    TabOrder = 4
+    Visible = False
+    OnClick = ListBoxTiposSistemaClick
+  end
+  object ListBoxSistemas: TListBox
+    Left = 832
+    Top = 8
+    Width = 200
+    Height = 578
+    ItemHeight = 13
+    TabOrder = 5
+    Visible = False
   end
   object MainMenu1: TMainMenu
     Left = 968

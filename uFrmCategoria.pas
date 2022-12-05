@@ -114,6 +114,10 @@ begin
   FrmPrincipal.ListBoxVeiculos.Clear;
   FrmPrincipal.ListBoxMotorizacao.Visible := false;
   FrmPrincipal.ListBoxMotorizacao.Clear;
+  FrmPrincipal.ListBoxTiposSistema.Visible := false;
+  FrmPrincipal.ListBoxTiposSistema.Clear;
+  FrmPrincipal.ListBoxSistemas.Visible := false;
+  FrmPrincipal.ListBoxSistemas.Clear;
 end;
 
 end.
