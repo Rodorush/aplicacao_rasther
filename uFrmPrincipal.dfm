@@ -3,7 +3,7 @@ object FrmPrincipal: TFrmPrincipal
   Top = 0
   Caption = 'Aplica'#231#227'o Rasther'
   ClientHeight = 611
-  ClientWidth = 1086
+  ClientWidth = 1038
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -28,7 +28,7 @@ object FrmPrincipal: TFrmPrincipal
   end
   object ListBoxVeiculos: TListBox
     Left = 214
-    Top = 8
+    Top = 7
     Width = 200
     Height = 579
     ItemHeight = 13
@@ -49,10 +49,11 @@ object FrmPrincipal: TFrmPrincipal
   object StatusBar1: TStatusBar
     Left = 0
     Top = 592
-    Width = 1086
+    Width = 1038
     Height = 19
     Panels = <>
     SimplePanel = True
+    ExplicitWidth = 1086
   end
   object ListBoxTiposSistema: TListBox
     Left = 626
@@ -72,6 +73,7 @@ object FrmPrincipal: TFrmPrincipal
     ItemHeight = 13
     TabOrder = 5
     Visible = False
+    OnClick = ListBoxSistemasClick
   end
   object MainMenu1: TMainMenu
     Left = 968
@@ -92,6 +94,7 @@ object FrmPrincipal: TFrmPrincipal
     end
     object Sobre1: TMenuItem
       Caption = '&Sobre'
+      OnClick = Sobre1Click
     end
   end
   object RESTClientPrincipal: TRESTClient

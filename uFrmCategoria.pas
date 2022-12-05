@@ -43,8 +43,8 @@ begin
   FrmPrincipal.ListBoxMontadoras.Clear;
 
   sCategoriaSelecionada := ComboBox1.Items[ComboBox1.ItemIndex];
-  FrmPrincipal.StatusBar1.SimpleText := FrmPrincipal.baseURL+'montadora'+FrmPrincipal.midURL+'&pm.type='+sCategoriaSelecionada;
-  RESTClientCategoria.BaseURL := FrmPrincipal.StatusBar1.SimpleText;
+  FrmPrincipal.StatusBar1.SimpleText := sCategoriaSelecionada;
+  RESTClientCategoria.BaseURL := FrmPrincipal.baseURL+'montadora'+FrmPrincipal.midURL+'&pm.type='+sCategoriaSelecionada;
 
   try
     RESTRequestCategoria.Execute;
@@ -81,11 +81,11 @@ procedure TFrmCategoria.FormShow(Sender: TObject);
     retornoVetor: TStringDynArray;
 
 begin
-  //*** tentar criar objeto direto de string
   ComboBox1.Clear;
+  FrmPrincipal.StatusBar1.SimpleText := '';
   ResetaListBoxes();
-  FrmPrincipal.StatusBar1.SimpleText := FrmPrincipal.baseURL+'tipo'+FrmPrincipal.midURL;
-  RESTClientCategoria.BaseURL := FrmPrincipal.StatusBar1.SimpleText;
+  //FrmPrincipal.path := FrmPrincipal.baseURL+'tipo'+FrmPrincipal.midURL;
+  RESTClientCategoria.BaseURL := FrmPrincipal.baseURL+'tipo'+FrmPrincipal.midURL;
 
   try
     RESTRequestCategoria.Execute;
