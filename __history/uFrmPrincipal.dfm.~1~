@@ -2,7 +2,7 @@ object FrmPrincipal: TFrmPrincipal
   Left = 0
   Top = 0
   Caption = 'Aplica'#231#227'o Rasther'
-  ClientHeight = 611
+  ClientHeight = 595
   ClientWidth = 1086
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,7 +13,6 @@ object FrmPrincipal: TFrmPrincipal
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poScreenCenter
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object ListBoxMontadoras: TListBox
@@ -44,17 +43,6 @@ object FrmPrincipal: TFrmPrincipal
     ItemHeight = 13
     TabOrder = 2
     Visible = False
-  end
-  object StatusBar1: TStatusBar
-    Left = 0
-    Top = 592
-    Width = 1086
-    Height = 19
-    Panels = <>
-    SimplePanel = True
-    ExplicitLeft = 672
-    ExplicitTop = 536
-    ExplicitWidth = 0
   end
   object MainMenu1: TMainMenu
     Left = 968

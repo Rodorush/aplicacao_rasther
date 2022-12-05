@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, REST.Types, REST.Client, System.Types, System.StrUtils,
-  Data.Bind.Components, Data.Bind.ObjectScope, System.JSON, System.Generics.Collections, System.UITypes;
+  Data.Bind.Components, Data.Bind.ObjectScope, System.JSON;
 
 type
   TFrmCategoria = class(TForm)
@@ -22,7 +22,6 @@ type
   public
     { Public declarations }
     jsonMontadoras: TJSONArray;
-    sCategoriaSelecionada: string;
   end;
 
 var
@@ -37,14 +36,17 @@ uses uFrmPrincipal;
 procedure TFrmCategoria.ComboBox1Select(Sender: TObject);
   var
     I: integer;
+    retornoString: string;
+    retornoVetor: TStringDynArray;
+    baseURL: string;
     item: TJSONObject;
 
 begin
   FrmPrincipal.ListBoxMontadoras.Clear;
 
-  sCategoriaSelecionada := ComboBox1.Items[ComboBox1.ItemIndex];
-  FrmPrincipal.StatusBar1.SimpleText := FrmPrincipal.baseURL+'montadora'+FrmPrincipal.midURL+'&pm.type='+sCategoriaSelecionada;
-  RESTClientCategoria.BaseURL := FrmPrincipal.StatusBar1.SimpleText;
+  baseURL := 'https://service.tecnomotor.com.br/iRasther/montadora?pm.platform=1&pm.version=23&pm.type='
+   + ComboBox1.Items[ComboBox1.ItemIndex];
+  RESTClientCategoria.BaseURL := baseURL;
 
   try
     RESTRequestCategoria.Execute;
@@ -84,8 +86,7 @@ begin
   //*** tentar criar objeto direto de string
   ComboBox1.Clear;
   ResetaListBoxes();
-  FrmPrincipal.StatusBar1.SimpleText := FrmPrincipal.baseURL+'tipo'+FrmPrincipal.midURL;
-  RESTClientCategoria.BaseURL := FrmPrincipal.StatusBar1.SimpleText;
+  RESTClientCategoria.BaseURL := 'https://service.tecnomotor.com.br/iRasther/tipo?pm.platform=1&pm.version=23';
 
   try
     RESTRequestCategoria.Execute;

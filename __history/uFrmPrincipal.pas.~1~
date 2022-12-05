@@ -22,21 +22,17 @@ type
     RESTRequestPrincipal: TRESTRequest;
     RESTResponsePrincipal: TRESTResponse;
     ListBoxMotorizacao: TListBox;
-    StatusBar1: TStatusBar;
     procedure Novaescolha1Click(Sender: TObject);
     procedure Sair1Click(Sender: TObject);
     procedure ListBoxMontadorasClick(Sender: TObject);
     procedure ListBoxVeiculosClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     jsonVeiculos: TJSONArray;
     jsonMotorizacao: TJSONArray;
-    sMontadoraSelecionada: string;
   public
     { Public declarations }
-    baseURL: string;
-    midURL: string;
+  //baseURL: string;
   end;
 
 var
@@ -46,29 +42,20 @@ implementation
 
 {$R *.dfm}
 
-procedure TFrmPrincipal.FormShow(Sender: TObject);
-begin
-  baseURL := 'https://service.tecnomotor.com.br/iRasther/';
-  midURL := '?pm.platform=1&pm.version=23';
-  StatusBar1.SimpleText := baseURL;
-end;
-
 procedure TFrmPrincipal.ListBoxMontadorasClick(Sender: TObject);
   var
-    jMontadoraSelecionada: TJSONObject;
+    baseURL: string;
+    montadoraSelecionada: TJSONObject;
     I: integer;
     item: TJSONObject;
 
 begin
   ListBoxVeiculos.Clear;
-  ListBoxMotorizacao.Clear;
-  ListBoxMotorizacao.Visible := false;
-  jMontadoraSelecionada := FrmCategoria.jsonMontadoras.Items[ListBoxMontadoras.ItemIndex] as TJSONObject;
-  sMontadoraSelecionada := jMontadoraSelecionada.GetValue('id').Value;
-  StatusBar1.SimpleText := baseURL+'veiculo'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada+'&pm.assemblers='
-   +sMontadoraSelecionada;
-  RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
+  montadoraSelecionada := FrmCategoria.jsonMontadoras.Items[ListBoxMontadoras.ItemIndex] as TJSONObject;
+  baseURL := FrmCategoria.RESTClientCategoria.BaseURL;
+  baseURL := StringReplace(baseURL, 'montadora', 'veiculo', [])+'&pm.assemblers='+montadoraSelecionada.GetValue('id').Value;
 
+  RESTClientPrincipal.BaseURL := baseURL;
   try
     RESTRequestPrincipal.Execute;
     jsonVeiculos := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
@@ -87,28 +74,20 @@ end;
 
 procedure TFrmPrincipal.ListBoxVeiculosClick(Sender: TObject);
   var
-    jVeiculoSelecionado: TJSONObject;
-    sVeiculoSelecionado: string;
+    baseURL: string;
+    veiculoSelecionado: TJSONObject;
     I: integer;
     item: TJSONObject;
 
 begin
   ListBoxMotorizacao.Clear;
-  jVeiculoSelecionado := jsonVeiculos.Items[ListBoxVeiculos.ItemIndex] as TJSONObject;
-  sVeiculoSelecionado := jVeiculoSelecionado.GetValue('id').Value;
-  StatusBar1.SimpleText := baseURL+'motorizacao'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada
-   +'&pm.assemblers='+sMontadoraSelecionada+'&pm.vehicles='+sVeiculoSelecionado;
-  RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
+  veiculoSelecionado := jsonVeiculos.Items[ListBoxVeiculos.ItemIndex] as TJSONObject;
+  baseURL := RESTClientPrincipal.BaseURL;
+  baseURL := StringReplace(baseURL, 'veiculo', 'motorizacao', [])+'&pm.vehicles='+veiculoSelecionado.GetValue('id').Value;
 
+  RESTClientPrincipal.BaseURL := baseURL;
   try
     RESTRequestPrincipal.Execute;
-    if(RESTResponsePrincipal.Content = '[null]') then
-      begin
-        StatusBar1.SimpleText := baseURL+'tiposistema'+midURL+'&pm.type='+FrmCategoria.sCategoriaSelecionada
-          +'&pm.assemblers='+sMontadoraSelecionada+'&pm.vehicles='+sVeiculoSelecionado;
-        RESTClientPrincipal.BaseURL := StatusBar1.SimpleText;
-        RESTRequestPrincipal.Execute;
-      end;
     jsonMotorizacao := TJSONObject.ParseJSONValue(RESTResponsePrincipal.Content) as TJSONArray;
     for I := 0 to jsonMotorizacao.Count - 1 do
       begin
