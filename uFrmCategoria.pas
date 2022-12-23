@@ -9,13 +9,13 @@ uses
 
 type
   TFrmCategoria = class(TForm)
-    ComboBox1: TComboBox;
+    cboCategorias: TComboBox;
     Label1: TLabel;
     RESTClientCategoria: TRESTClient;
     RESTRequestCategoria: TRESTRequest;
     RESTResponseCategoria: TRESTResponse;
     procedure FormShow(Sender: TObject);
-    procedure ComboBox1Select(Sender: TObject);
+    procedure cboCategoriasSelect(Sender: TObject);
     procedure ResetaListBoxes();
   private
     { Private declarations }
@@ -34,7 +34,7 @@ implementation
 
 uses uFrmPrincipal;
 
-procedure TFrmCategoria.ComboBox1Select(Sender: TObject);
+procedure TFrmCategoria.cboCategoriasSelect(Sender: TObject);
   var
     I: integer;
     item: TJSONObject;
@@ -42,7 +42,7 @@ procedure TFrmCategoria.ComboBox1Select(Sender: TObject);
 begin
   FrmPrincipal.ListBoxMontadoras.Clear;
 
-  sCategoriaSelecionada := ComboBox1.Items[ComboBox1.ItemIndex];
+  sCategoriaSelecionada := cboCategorias.Items[cboCategorias.ItemIndex];
   FrmPrincipal.StatusBar1.SimpleText := sCategoriaSelecionada;
   RESTClientCategoria.BaseURL := FrmPrincipal.baseURL+'montadora'+FrmPrincipal.midURL+'&pm.type='+sCategoriaSelecionada;
 
@@ -79,26 +79,36 @@ procedure TFrmCategoria.FormShow(Sender: TObject);
     i: integer;
     retornoString: string;
     retornoVetor: TStringDynArray;
+    listaRetorno: TStringList;
 
 begin
-  ComboBox1.Clear;
+  cboCategorias.Clear;
   FrmPrincipal.StatusBar1.SimpleText := '';
   ResetaListBoxes();
-  //FrmPrincipal.path := FrmPrincipal.baseURL+'tipo'+FrmPrincipal.midURL;
   RESTClientCategoria.BaseURL := FrmPrincipal.baseURL+'tipo'+FrmPrincipal.midURL;
 
   try
     RESTRequestCategoria.Execute;
     {
-      Optei por manipular strings pois infelizmente não conheço um método
-      em Delphi para popular a ComboBox de forma direta em forma de objeto
-      com o array de retorno da API
+      Melhorei um pouco este trecho manipulando menos strings com o uso de uma
+      lista de strings. Mas ainda gostaria de gerar um objeto com menos
+      manipulação de strings ainda.
     }
-    retornoString := RESTRequestCategoria.Response.Content;
-    retornoString := retornoString.Substring(1,length(retornoString)-2);
-    retornoVetor := SplitString(retornoString, ',');
-    for i := 0 to length(retornoVetor)-1 do
-      ComboBox1.Items.Add(retornoVetor[i].Substring(1,length(retornoVetor[i])-2));
+    listaRetorno := TStringList.Create;
+    try
+      retornoString := RESTRequestCategoria.Response.Content;
+
+      //removemos os colchetes
+      retornoString:= StringReplace(retornoString, '[', '', [rfReplaceAll]);
+      retornoString:= StringReplace(retornoString, ']', '', [rfReplaceAll]);
+      listaRetorno.DelimitedText := retornoString;
+      listaRetorno.Delimiter := ',';
+
+      cboCategorias.Items.AddStrings(listaRetorno);
+    finally
+      listaRetorno.Free;
+    end;
+
     except
       MessageDlg('Não foi possível obter as categorias. Por favor, tente novamente.', mtError, [mbOK], 0);
       PostMessage(FrmCategoria.Handle, WM_Close, 0, 0);

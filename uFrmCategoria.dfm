@@ -33,14 +33,14 @@ object FrmCategoria: TFrmCategoria
     ParentFont = False
     ExplicitWidth = 259
   end
-  object ComboBox1: TComboBox
+  object cboCategorias: TComboBox
     Left = 112
     Top = 86
     Width = 169
     Height = 21
     TabOrder = 0
     Text = 'Selecione um tipo de ve'#237'culo'
-    OnSelect = ComboBox1Select
+    OnSelect = cboCategoriasSelect
   end
   object RESTClientCategoria: TRESTClient
     Accept = 
